@@ -36,7 +36,7 @@ void source::connect(std::string dest_ip, std::string dest_port) {
 }
 void source::send(std::string filename) {
 
-    std::ifstream file(filename);
+    std::ifstream file(filename.c_str()); // c_str()? mingw needs it
     while (true) {
         try {
             file.read((component::buffer + sizeof(int)), BUFFER_SIZE - sizeof(int));

@@ -38,7 +38,7 @@ void destination::accept() {
 }
 
 void destination::receive(std::string filename) {
-    std::ofstream file(filename);
+    std::ofstream file(filename.c_str()); // c_str()? mingw needs it
     while (true) {
         try {
             boost::asio::read(socket, boost::asio::buffer(buffer, BUFFER_SIZE));

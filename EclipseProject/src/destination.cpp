@@ -1,6 +1,6 @@
 /*
  FileTransmitter is a program which allows to transfer files between computers over the network
- Version 0.1
+ Version 0.2
  Copyright 2014 Marcel Sinniger
 
  This file is part of FileTransmitter.
@@ -19,25 +19,25 @@
  along with FileTransmitter.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "server.hpp"
+#include "destination.hpp"
 
 using namespace boost::asio::ip;
 
-server::server() :
+destination::destination() :
         io_service(), socket(io_service), endpoint(0), acceptor(0) {
 
 }
 
-void server::bind(std::string src_port) {
+void destination::bind(std::string src_port) {
     endpoint = new tcp::endpoint(tcp::v4(), std::atoi(src_port.c_str()));
 }
 
-void server::accept() {
+void destination::accept() {
     acceptor = new tcp::acceptor(io_service, *endpoint);
     acceptor->accept(socket);
 }
 
-void server::receive(std::string filename) {
+void destination::receive(std::string filename) {
     std::ofstream file(filename);
     while (true) {
         try {
@@ -55,11 +55,11 @@ void server::receive(std::string filename) {
     }
 }
 
-void server::close() {
+void destination::close() {
     socket.close();
 }
 
-server::~server() {
+destination::~destination() {
     delete acceptor;
     delete endpoint;
 }

@@ -1,6 +1,6 @@
 /*
  FileTransmitter is a program which allows to transfer files between computers over the network
- Version 0.1
+ Version 0.2
  Copyright 2014 Marcel Sinniger
 
  This file is part of FileTransmitter.
@@ -19,33 +19,12 @@
  along with FileTransmitter.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "relay.hpp"
-#include <boost/asio.hpp>
+#include "component.hpp"
 
-using namespace boost::asio::ip;
-
-relay::relay() {
+component::component() :
+        buffer(0), length(0) {
+    buffer = new char[BUFFER_SIZE];
 }
 
-void relay::forward() {
-
-    while (true) {
-        try {
-            boost::asio::read(this->server::socket,
-                    boost::asio::buffer(buffer, BUFFER_SIZE));
-            memcpy(&length, buffer, sizeof(int));
-
-            boost::asio::write(this->client::socket,
-                    boost::asio::buffer(buffer, BUFFER_SIZE));
-            if (length == 0) {
-                break;
-            }
-        } catch (boost::system::system_error &e) {
-            std::cerr << e.what() << std::endl;
-            std::exit(EXIT_FAILURE);
-        }
-    }
-}
-
-relay::~relay() {
+component::~component() {
 }

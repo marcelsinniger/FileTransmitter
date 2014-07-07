@@ -1,6 +1,6 @@
 /*
  FileTransmitter is a program which allows to transfer files between computers over the network
- Version 0.1
+ Version 0.2
  Copyright 2014 Marcel Sinniger
 
  This file is part of FileTransmitter.
@@ -19,27 +19,27 @@
  along with FileTransmitter.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "client.hpp"
+#include "source.hpp"
 #include <boost/lexical_cast.hpp>
 
 using namespace boost::asio::ip;
 
-client::client() :
+source::source() :
         resolver(io_service), socket(io_service) {
 }
 
-void client::connect(std::string dest_ip, std::string dest_port) {
+void source::connect(std::string dest_ip, std::string dest_port) {
     boost::asio::ip::tcp::resolver::query query(dest_ip, dest_port);
     boost::asio::ip::tcp::resolver::iterator endpoint_interator =
             resolver.resolve(query);
     boost::asio::connect(socket, endpoint_interator);
 }
-void client::send(std::string filename) {
+void source::send(std::string filename) {
 
     std::ifstream file(filename);
     while (true) {
         try {
-            file.read((buffer + sizeof(int)), BUFFER_SIZE - sizeof(int));
+            file.read((component::buffer + sizeof(int)), BUFFER_SIZE - sizeof(int));
             length = file.gcount();
             memcpy(buffer, &length, sizeof(int)); // send the length
             boost::asio::write(socket,
@@ -60,10 +60,10 @@ void client::send(std::string filename) {
         }
     }
 }
-void client::close() {
+void source::close() {
     socket.close();
 }
 
-client::~client() {
+source::~source() {
 }
 

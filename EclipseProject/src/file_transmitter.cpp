@@ -36,8 +36,6 @@ const string MODE_RELAY = "relay";
 
 int main(int argc, char** argv) {
 
-    cout << argc << endl;
-
     string mode;
     string filename;
     string dest_ip;

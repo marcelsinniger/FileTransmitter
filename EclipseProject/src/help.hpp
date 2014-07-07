@@ -34,8 +34,8 @@ string help =
                 "under certain conditions; type `show c' for details."
                 "\n"
                 "Usage:\n"
-                "    fileTransmitter dest <filename> <src_port>\n"
-                "    fileTransmitter src <filename> <dest_ip> <dest_port>"
+                "    FileTransmitter dest <filename> <src_port>\n"
+                "    FileTransmitter src <filename> <dest_ip> <dest_port>"
                 "\n"
-                "    fileTransmitter relay <src_port> <dest_ip> <dest_port>"
+                "    FileTransmitter relay <src_port> <dest_ip> <dest_port>"
                 "\n";
